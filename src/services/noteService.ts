@@ -1,0 +1,42 @@
+import axios from "axios"
+import { type newNote, type Note } from "../types/note";
+const token = import.meta.env.VITE_NOTEHUB_TOKEN;
+
+interface NotesResponse {
+    notes: Note[],
+    totalPages: number,
+}
+
+const perPage = 12;
+
+export const fetchNotes = async (query: string, page: number): Promise<NotesResponse> => {
+    const res = await axios.get<NotesResponse>("https://notehub-public.goit.study/api/notes", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        params: {
+            ...(query !== ""? {search: query} : {}),
+            page,
+            perPage
+        }
+    })
+    return res.data;
+}
+
+export const createNote = async (postNote: newNote): Promise<Note> => {
+    const res = await axios.post<Note>("https://notehub-public.goit.study/api/notes", postNote, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },  
+    })
+    return res.data;
+}
+
+export const deleteNote = async (id: number): Promise<Note> => {
+    const res = await axios.delete<Note>(`https://notehub-public.goit.study/api/notes/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    return res.data;
+}
