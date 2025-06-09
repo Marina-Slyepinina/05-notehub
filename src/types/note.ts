@@ -1,28 +1,14 @@
-type tag = 'Work' | 'Personal' | 'Meeting' | 'Shopping' | 'Todo'
+type Tag = 'Work' | 'Personal' | 'Meeting' | 'Shopping' | 'Todo'
 
 export interface Note {
     id: number,
     title: string,
     content: string,
-    tag: tag
+    tag: Tag
 }
 
-export interface newNote {
+export interface NewNote {
     title: string,
     content: string,
-    tag: tag,
+    tag: Tag,
 }
-
-// {
-    // "notes": [
-    //     {
-    //     "id": 1,
-    //     "title": "Sample Note",
-    //     "content": "This is a sample note content.",
-    //     "createdAt": "2022-01-01T00:00:00Z",
-    //     "updatedAt": "2022-01-01T00:00:00Z",
-    //     "tag": "Todo"
-    //     }
-    // ],
-    // "totalPages": 5
-// }
