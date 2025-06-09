@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useDebounce } from 'use-debounce';
 import { fetchNotes } from "../../services/noteService";
@@ -20,20 +20,21 @@ export default function App() {
     const onClose = () => setIsOpen(false);
     const onOpen = () => setIsOpen(true);
 
-    useEffect(() => {
-        setPage(1);
-    }, [debouncedValue]);
-
     const { data, isLoading, isSuccess } = useQuery({
         queryKey: ['notes', debouncedValue, page],
         queryFn: () => fetchNotes(debouncedValue, page),
         placeholderData: keepPreviousData,
     })
+
+    const onSearch = (value: string) => {
+        setInputValue(value);
+        setPage(1);
+    };
     
 return <>
 <div className={css.app}>
     <header className={css.toolbar}>
-        <SearchBox value={inputValue} onSearch={setInputValue}/>
+        <SearchBox value={inputValue} onSearch={onSearch}/>
         
         {isSuccess && data.totalPages > 1 && <Pagination totalPages={data.totalPages} currentPage={page} onPageChange={setPage} />}
             
